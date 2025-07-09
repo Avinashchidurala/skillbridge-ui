@@ -1,0 +1,38 @@
+.manage-users {
+  padding: 30px;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f9ff;
+}
+
+.manage-users h2 {
+  margin-bottom: 20px;
+}
+
+.manage-users select {
+  padding: 8px;
+  margin-bottom: 20px;
+}
+
+.manage-users table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.manage-users th, .manage-users td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.manage-users button {
+  background-color: #007bff;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}

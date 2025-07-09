@@ -1,0 +1,48 @@
+.manage-certificates {
+  padding: 30px;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f9ff;
+}
+
+.manage-certificates h2 {
+  margin-bottom: 20px;
+}
+
+.manage-certificates label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 600;
+}
+
+.manage-certificates select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.manage-certificates button {
+  margin-top: 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.manage-certificates .message {
+  margin-top: 15px;
+  color: green;
+}
+
+.download-link {
+  display: inline-block;
+  margin-top: 15px;
+  background-color: #28a745;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+}

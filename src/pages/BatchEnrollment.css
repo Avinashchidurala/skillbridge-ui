@@ -1,0 +1,25 @@
+.batch-select {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.enroll-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.enroll-table th,
+.enroll-table td {
+  border: 1px solid #ccc;
+  padding: 12px;
+  text-align: center;
+  background-color: #fdfdfd;
+}
+
+.enroll-table th {
+  background-color: #e9eff5;
+}

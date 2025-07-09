@@ -1,0 +1,38 @@
+.cert-display {
+  padding: 30px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.cert-display h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.cert-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.cert-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+  text-align: center;
+}
+
+.cert-card:hover {
+  transform: translateY(-5px);
+}
+
+.cert-download {
+  display: inline-block;
+  margin-top: 10px;
+  background-color: #28a745;
+  color: white;
+  padding: 8px 12px;
+  text-decoration: none;
+  border-radius: 6px;
+}

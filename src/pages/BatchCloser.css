@@ -1,0 +1,16 @@
+.batch-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.batch-table th,
+.batch-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+.batch-table th {
+  background-color: #ecf0f1;
+}

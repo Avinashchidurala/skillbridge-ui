@@ -1,0 +1,13 @@
+.release-select {
+  margin: 15px 0;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.release-select select,
+.release-select button {
+  padding: 8px;
+  font-size: 14px;
+}

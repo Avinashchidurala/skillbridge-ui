@@ -1,0 +1,35 @@
+.admin-dashboard {
+  padding: 40px;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom, #f4f9ff, #dde9ff);
+  text-align: center;
+}
+
+.admin-dashboard h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.admin-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.admin-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.admin-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+}
+
+.admin-card h3 {
+  margin-bottom: 10px;
+}
