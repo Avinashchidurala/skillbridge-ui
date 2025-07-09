@@ -1,85 +1,118 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Signup from './pages/Signup';
-import Verify from './pages/Verify';
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
-import ForgotPassword from './pages/ForgotPassword';
-import ResetPassword from './pages/ResetPassword';
-import UserProfile from './pages/UserProfile';
-
-// Student modules
-import StudentResults from './pages/StudentResults';
-import ExamAccessGate from './pages/ExamAccessGate';
-import CertificateDownloader from './pages/CertificateDownloader';
-
-// Teacher modules
-import BatchEnrollment from './pages/BatchEnrollment';
-import BatchResultsViewer from './pages/BatchResultsViewer';
-import BatchCloser from './pages/BatchCloser';
-import ResultReleaser from './pages/ResultReleaser';
-
-// Admin modules
-import AdminDashboard from './pages/AdminDashboard';
-import ManageUsers from './pages/ManageUsers';
-import ManageCourses from './pages/ManageCourses';
-import ManageCertificates from './pages/ManageCertificates';
-import AdminStats from './pages/AdminStats';
-
-import Unauthorized from './pages/Unauthorized';
-import Home from './pages/Home'; // ✅ This includes course cards now
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import ProtectedRoute from './components/ProtectedRoute';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
+  const [file, setFile] = useState(null);
+  const [message, setMessage] = useState('');
+  const [tables, setTables] = useState([]);
+  const [tableData, setTableData] = useState([]);
+  const [selectedTable, setSelectedTable] = useState('');
+
+  const apiBaseUrl = process.env.REACT_APP_API_URL;
+
+  useEffect(() => {
+    fetchTables();
+  }, []);
+
+  const fetchTables = async () => {
+    try {
+      const res = await axios.get(`${apiBaseUrl}/api/tables`);
+      setTables(res.data);
+    } catch (err) {
+      console.error('Error fetching tables', err);
+    }
+  };
+
+  const fetchTableData = async (tableName) => {
+    try {
+      const res = await axios.get(`${apiBaseUrl}/api/table/${tableName}`);
+      setTableData(res.data);
+      setSelectedTable(tableName);
+    } catch (err) {
+      console.error('Error fetching table data', err);
+    }
+  };
+
+  const handleUpload = async () => {
+    if (!file) return alert("Please select a file.");
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await axios.post(`${apiBaseUrl}/api/upload`, formData);
+      setMessage(res.data);
+      fetchTables();
+    } catch (err) {
+      console.error("Upload error", err);
+      setMessage("Upload failed.");
+    }
+  };
+
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/verify" element={<Verify />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
+    <div
+      className="container-fluid py-5"
+      style={{
+        background: 'radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%)',
+        minHeight: '100vh',
+      }}
+    >
+      <div className="container">
+        <h2 className="text-center mb-4">📊 SkillBridge Data Dashboard</h2>
 
-        {/* Protected Student Routes */}
-        <Route element={<ProtectedRoute allowedRoles={['STUDENT']} />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/dashboard/certificates" element={<CertificateDownloader />} />
-          <Route path="/results" element={<StudentResults />} />
-          <Route path="/exams" element={<ExamAccessGate />} />
-        </Route>
+        <div className="card p-4 shadow-sm mb-4">
+          <div className="mb-3">
+            <input type="file" className="form-control" onChange={(e) => setFile(e.target.files[0])} />
+          </div>
+          <button className="btn btn-success w-100" onClick={handleUpload}>
+            Upload File
+          </button>
+          {message && <div className="alert alert-info mt-3">{message}</div>}
+        </div>
 
-        {/* Protected Teacher Routes */}
-        <Route element={<ProtectedRoute allowedRoles={['TEACHER']} />}>
-          <Route path="/teacher/enroll" element={<BatchEnrollment />} />
-          <Route path="/teacher/results" element={<BatchResultsViewer />} />
-          <Route path="/teacher/close-batch" element={<BatchCloser />} />
-          <Route path="/teacher/release-results" element={<ResultReleaser />} />
-        </Route>
+        <h4>Available Tables:</h4>
+        <ul className="list-group mb-4">
+          {tables.map((table, index) => (
+            <li
+              key={index}
+              className="list-group-item d-flex justify-content-between align-items-center"
+              onClick={() => fetchTableData(table)}
+              style={{ cursor: 'pointer' }}
+            >
+              {table}
+              <span className="badge bg-primary text-light">View</span>
+            </li>
+          ))}
+        </ul>
 
-        {/* Protected Admin Routes */}
-        <Route element={<ProtectedRoute allowedRoles={['ADMIN']} />}>
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          <Route path="/admin/users" element={<ManageUsers />} />
-          <Route path="/admin/courses" element={<ManageCourses />} />
-          <Route path="/admin/certificates" element={<ManageCertificates />} />
-          <Route path="/admin/stats" element={<AdminStats />} />
-        </Route>
-
-        {/* Common Protected Route */}
-        <Route element={<ProtectedRoute allowedRoles={['STUDENT', 'TEACHER', 'ADMIN']} />}>
-          <Route path="/profile" element={<UserProfile />} />
-        </Route>
-
-        {/* Unauthorized Fallback */}
-        <Route path="/unauthorized" element={<Unauthorized />} />
-      </Routes>
-      <Footer />
-    </Router>
+        {tableData.length > 0 && (
+          <>
+            <h5 className="mb-3">Table: <strong>{selectedTable}</strong></h5>
+            <div className="table-responsive">
+              <table className="table table-striped table-bordered">
+                <thead className="table-light">
+                  <tr>
+                    {Object.keys(tableData[0]).map((col, idx) => (
+                      <th key={idx}>{col}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {tableData.map((row, i) => (
+                    <tr key={i}>
+                      {Object.values(row).map((val, j) => (
+                        <td key={j}>{val}</td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
   );
 }
 
